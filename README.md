@@ -33,7 +33,7 @@ Most publicly available skincare datasets do not include explicit skin type labe
 - Explainable and rule-based logic  
 
 
- 🌐 Streamlit Application
+ 🌐 Streamlit Application:
 The project includes an interactive Streamlit web app where users can:
 - Select their skin type  
 - Choose the product category  
@@ -50,3 +50,4 @@ streamlit run streamlit_app.py
 ```
 👩‍💻 Author
 Kavya Srivastava
+
