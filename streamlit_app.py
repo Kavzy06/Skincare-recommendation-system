@@ -4,9 +4,8 @@ import re
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# -------------------------------
 # Page config
-# -------------------------------
+
 st.set_page_config(
     page_title="Skincare Recommender",
     page_icon="🧴",
@@ -17,14 +16,14 @@ st.title("🧴 Skincare Recommendation System")
 st.caption("Skin-type based recommendations using ingredient intelligence ✨")
 st.caption("💰 All prices are shown in INR (₹)")
 
-# -------------------------------
+
 # Load dataset
-# -------------------------------
+
 df = pd.read_csv("skincare_products_clean.csv")
 
-# -------------------------------
+
 # Currency conversion (SYMBOL → INR)
-# -------------------------------
+
 EUR_TO_INR = 90.0
 USD_TO_INR = 83.0
 GBP_TO_INR = 105.0
@@ -54,21 +53,21 @@ def convert_to_inr(price_str):
 
 df["price_inr"] = df["price"].astype(str).apply(convert_to_inr)
 
-# -------------------------------
+
 # Clean ingredients
-# -------------------------------
+
 def clean_ingredients(text):
     text = text.lower()
     text = re.sub(r"[^a-zA-Z, ]", "", text)
     text = text.replace(",", " ")
     return text
 
-# ⚠ assuming clean_ingreds already exists in CSV
+
 df["clean_ingredients"] = df["clean_ingreds"].apply(clean_ingredients)
 
-# -------------------------------
+
 # Skin type rules
-# -------------------------------
+
 SKIN_TYPE_RULES = {
     "Oily": {
         "good": ["niacinamide", "salicylic", "zinc", "tea tree"],
@@ -88,9 +87,9 @@ SKIN_TYPE_RULES = {
     }
 }
 
-# -------------------------------
+
 # Skin type scoring
-# -------------------------------
+
 def skin_type_score(ingredients, skin_type):
     score = 0
     rules = SKIN_TYPE_RULES[skin_type]
@@ -110,16 +109,16 @@ for skin in SKIN_TYPE_RULES.keys():
         lambda x: skin_type_score(x, skin)
     )
 
-# -------------------------------
+
 # TF-IDF similarity
-# -------------------------------
+
 tfidf = TfidfVectorizer(stop_words="english")
 ingredient_matrix = tfidf.fit_transform(df["clean_ingredients"])
 similarity_matrix = cosine_similarity(ingredient_matrix)
 
-# -------------------------------
+
 # User inputs
-# -------------------------------
+
 skin_type = st.selectbox(
     "Select your skin type 👇",
     ["Oily", "Dry", "Sensitive", "Combination"]
@@ -142,9 +141,9 @@ price_range = st.slider(
 
 top_n = st.slider("Number of recommendations", 3, 10, 5)
 
-# -------------------------------
+
 # Recommendation logic
-# -------------------------------
+
 def recommend_products(skin_type, product_type, price_range, top_n):
     min_p, max_p = price_range
 
@@ -179,9 +178,9 @@ def recommend_products(skin_type, product_type, price_range, top_n):
 
     return df.loc[top_indices]
 
-# -------------------------------
+
 # Display results
-# -------------------------------
+
 if st.button("✨ Get Recommendations"):
     results = recommend_products(
         skin_type,
