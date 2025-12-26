@@ -40,13 +40,12 @@ The project includes an interactive Streamlit web app where users can:
 - Set a budget range
 - View personalized product recommendations with prices and links
 
-
+```markdown
  ▶️ How to Run Locally
 
 ```bash
 pip install -r requirements.txt
 streamlit run streamlit_app.py
 
-Some pictures of the streamlit app are present in the images folder.
-
 Author - Kavya Srivastava
+
